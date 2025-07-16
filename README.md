@@ -6,7 +6,11 @@ This project demonstrates the implementation and training of Reinforcement Learn
 
 ### Installation
 
-From parent directory run the following commands
+Navigate to the directory of your choice and clone the repo:
+
+```bash
+git clone --branch production git@github.com:andmanousakis/Gym-Maze.git
+```
 
 Build the environment and install dependencies:
 ```bash

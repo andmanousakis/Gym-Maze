@@ -1,0 +1,43 @@
+# File: docker/docker-compose.yml
+
+services:
+  maze-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: maze-api
+    ports:
+      - "5005:5005"
+
+  rl-agent:
+    image: rl-agent:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.rlagent
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: rl-agent
+    volumes:
+      - ..:/app
+      - ../models:/app/models
+      - ../tensorboard_logs:/app/tensorboard_logs
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    depends_on:
+      - maze-api
+
+  tensorboard:
+    image: tensorboard:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.tensorboard
+    container_name: tensorboard
+    ports:
+      - "6006:6006"
+    volumes:
+      - ../tensorboard_logs:/tensorboard_logs
+
+
+
